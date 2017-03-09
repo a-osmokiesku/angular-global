@@ -14,6 +14,7 @@ import { CourseItem } from '../../core/entities';
 export class CoursesComponent implements OnInit, OnDestroy{
     private courseServiceSubscription: Subscription;
     private courseList: CourseItem[];
+    private searchText: string | Date;
     private isLoading: boolean = false;    
 
     constructor(private courseService: CourseService){
@@ -22,12 +23,41 @@ export class CoursesComponent implements OnInit, OnDestroy{
         this.courseList = [];
     }
 
-     ngOnDestroy(): void {
+    handleCourseDeleted(course: CourseItem): void{
+        console.log(course);
+    }
+
+    ngOnChanges():void{
+        console.log('Courses page ngOnChanges');
+    }
+    
+    ngDoCheck():void{
+        console.log('Courses page ngDoCheck');
+    }
+    
+    ngAfterContentInit():void{
+        console.log('Courses page ngAfterContentInit');
+    }
+    
+    ngAfterContentChecked():void{
+        console.log('Courses page ngAfterContentChecked');
+    }
+    
+    ngAfterViewInit():void{
+        console.log('Courses page ngAfterViewInit');
+    }
+
+    ngAfterViewChecked():void{
+        console.log('Courses page ngAfterViewChecked');
+    }
+
+    ngOnDestroy(): void {
+        console.log('Courses page ngOnDestroy');
         this.courseServiceSubscription.unsubscribe();
     }
 
      ngOnInit(): void {
-        console.log('Courses page init');
+        console.log('Courses page ngOnInit');
 
         this.isLoading = true;
         this.courseServiceSubscription = this.courseService.getCourseItems().subscribe((res: CourseItem[])=>{
