@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Input  } from '@angular/core';
+import { Component, ViewEncapsulation, Input, Output, EventEmitter  } from '@angular/core';
 
 import { CourseService } from '../../../core/services';
 import { CourseItem } from '../../../core/entities';
@@ -13,6 +13,11 @@ import { CourseItem } from '../../../core/entities';
 
 export class CourseComponent{
 	@Input() public course: CourseItem;
-
+	@Output() courseDeleted = new EventEmitter();
+	
     constructor(){}
+
+	delete(){
+		this.courseDeleted.emit(this.course.id);
+	}
 }
