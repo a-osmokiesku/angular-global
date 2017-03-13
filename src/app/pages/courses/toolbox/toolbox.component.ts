@@ -7,22 +7,12 @@ import { Component, Input, Output, EventEmitter} from '@angular/core';
 })
 
 export class ToolboxComponent{
-    private searchText: string | Date;
-
-    @Output() counterChange = new EventEmitter();
-  
-    @Input()
-    get counter() {
-        return this.searchText;
-    }
-    set counter(val) {
-        this.searchText = val;
-        this.counterChange.emit(this.searchText);
-    }
+    @Input() searchText: string | Date;
+    @Output() searchTextChange: EventEmitter<string | Date> = new EventEmitter<string | Date>();
 
     constructor(){}
 
     find(){
-        this.counterChange.emit(this.searchText);
+        this.searchTextChange.emit(this.searchText);
     }
 }
