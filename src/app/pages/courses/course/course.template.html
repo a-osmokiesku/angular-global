@@ -5,6 +5,6 @@
     <p class="card-text">{{course.description}}</p>
     <p class="card-text"><small class="text-muted">{{course.startDate | date: 'dd/MM/yyyy'}}</small></p>
     <a href="#" class="card-link">Edit course</a>
-    <a href="#" class="btn btn-danger">Delete</a>
+    <a href="#" class="btn btn-danger" (click)="delete()">Delete</a>
   </div>
 </div>
