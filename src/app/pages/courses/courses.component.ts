@@ -33,8 +33,9 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
         this.courseList = [];
     }
 
-    handleCourseDeleted(course: CourseItem): void{
-        console.log(course);
+    handleCourseDeleted(courseId: number): void{
+        console.log(courseId);
+        this.courseService.removeCourse(courseId);
     }
 
     ngOnChanges(): void
@@ -71,11 +72,11 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
         this.courseServiceSubscription.unsubscribe();
     }
 
-     ngOnInit(): void {
+    ngOnInit(): void {
         // console.log('Courses page ngOnInit');
 
         this.isLoading = true;
-        this.courseServiceSubscription = this.courseService.getCourseItems().subscribe((res: CourseItem[])=>{
+        this.courseServiceSubscription = this.courseService.getList().subscribe((res: CourseItem[])=>{
             this.courseList = res;
             this.isLoading = false;
         })

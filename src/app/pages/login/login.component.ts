@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { LoginModel } from '../core/entities';
+import { AuthService } from "../../core/services";
 
 @Component({
 	selector: 'login-form',
@@ -13,7 +14,15 @@ import { LoginModel } from '../core/entities';
 
 export class LoginComponent{
 
-    constructor(){
-        console.log('Login page constructor');
+    constructor(private authService: AuthService){
     }
+
+	private email: string;
+	private password: string
+
+	private login(){
+		console.log(this.email);
+		console.log(this.password);		
+		this.authService.login(this.email, this.password);
+	}
 }

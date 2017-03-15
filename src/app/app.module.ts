@@ -14,6 +14,7 @@ import {
 	PreloadAllModules
 } from '@angular/router';
 
+import { LocalStorageModule } from 'angular-2-local-storage';
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -32,11 +33,12 @@ import { LoginModule } from './pages/login';
 
 // Services
 
-import { CourseService } from './core/services';
+import { CourseService, AuthService } from './core/services';
 
 // Application wide providers
 const APP_PROVIDERS = [
-	CourseService
+	CourseService,
+	AuthService
 ];
 
 /**
@@ -56,7 +58,11 @@ const APP_PROVIDERS = [
 		HeaderModule,
 		FooterModule,
 		CoursesModule,
-		LoginModule
+		LoginModule,
+		LocalStorageModule.withConfig({
+			prefix: 'angular-global',
+			storageType: 'localStorage'
+		})
 	],
 	providers: [ // expose our Services and Providers into Angular's dependency injection
 		ENV_PROVIDERS,

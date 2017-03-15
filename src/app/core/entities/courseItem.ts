@@ -7,11 +7,11 @@ export  class CourseItem implements ICourseItem {
     public duration: number;
     public creatingDate: Date;
 
-	constructor(title: string, duration: number, startDate: Date, description: string) {
+	constructor(title: string, duration: number, creatingDate: Date, description: string) {
 		this.id = this.getRandomInt(0, 2147483647)
 		this.title = title;
 		this.duration = duration;
-		this.creatingDate = startDate;
+		this.creatingDate = creatingDate;
 		this.description = description;
 	}
 
