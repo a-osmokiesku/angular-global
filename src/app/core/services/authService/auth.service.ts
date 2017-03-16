@@ -10,12 +10,9 @@ export class AuthService{
     constructor(private localStorage: LocalStorageService){}
 
     public login(email: string, password: string): boolean{
-        if(email == password){
-            var userInfo: UserInfo = new UserInfo(email, "Artur");
-            localStorage.setItem(this.LocalStorageKey, JSON.stringify(userInfo));
-            return true
-        }
-        return false;
+        var userInfo: UserInfo = new UserInfo(email, "Artur");
+        localStorage.setItem(this.LocalStorageKey, JSON.stringify(userInfo));
+        return true
     }
 
     public logout(): void{

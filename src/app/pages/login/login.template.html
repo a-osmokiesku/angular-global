@@ -1,8 +1,8 @@
 <form class="form-signin">
     <h2 class="form-signin-heading">Please sign in</h2>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input [(ngModel)]="email" type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <input [(ngModel)]="email" type="text" name="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input [(ngModel)]="password" type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <input [(ngModel)]="password" type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
 	<button (click)="login()" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>

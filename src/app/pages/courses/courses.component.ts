@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, OnDestroy, OnChanges, Input} from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 
 import { CourseService } from '../../core/services';
@@ -17,6 +17,7 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     private isLoading: boolean = false;
     
     private _searchText: string | Date;
+
     @Input() 
     set searchText(value: string | Date){
         this._searchText = value;
