@@ -1,4 +1,8 @@
-<span class="navbar-text login-panel">
+<span *ngIf="isAuth" class="navbar-text login-panel">
 	<span>Hello, {{userLogin}}</span>
-	<button class="btn btn-sm align-middle btn-outline-secondary" type="button">logoff</button>
+	<button (click)="logout()" class="btn btn-sm align-middle btn-outline-secondary" type="button">logoff</button>
+</span>
+
+<span *ngIf="!isAuth" class="navbar-text login-panel">
+	<button routerLink="/login"  class="btn btn-sm align-middle btn-outline-secondary" type="button">login</button>
 </span>

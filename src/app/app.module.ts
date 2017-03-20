@@ -14,6 +14,11 @@ import {
 	PreloadAllModules
 } from '@angular/router';
 
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+
+
+import { LocalStorageModule } from 'angular-2-local-storage';
 /*
  * Platform and Environment providers/directives/pipes
  */
@@ -32,11 +37,13 @@ import { LoginModule } from './pages/login';
 
 // Services
 
-import { CourseService } from './core/services';
+import { CourseService, AuthService, LoggedInGuard } from './core/services';
 
 // Application wide providers
 const APP_PROVIDERS = [
-	CourseService
+	CourseService,
+	AuthService,
+	LoggedInGuard
 ];
 
 /**
@@ -53,10 +60,16 @@ const APP_PROVIDERS = [
 		FormsModule,
 		HttpModule,
 		RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
+		ModalModule.forRoot(),
+		BootstrapModalModule,
 		HeaderModule,
 		FooterModule,
 		CoursesModule,
-		LoginModule
+		LoginModule,
+		LocalStorageModule.withConfig({
+			prefix: 'angular-global',
+			storageType: 'localStorage'
+		})
 	],
 	providers: [ // expose our Services and Providers into Angular's dependency injection
 		ENV_PROVIDERS,

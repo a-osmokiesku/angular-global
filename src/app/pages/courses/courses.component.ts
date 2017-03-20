@@ -1,5 +1,8 @@
-import { Component, ViewEncapsulation, OnInit, OnDestroy, OnChanges, Input} from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild, ViewEncapsulation, ViewContainerRef } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
+
+import { Overlay } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { CourseService } from '../../core/services';
 import { CourseItem } from '../../core/entities';
@@ -17,6 +20,7 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     private isLoading: boolean = false;
     
     private _searchText: string | Date;
+
     @Input() 
     set searchText(value: string | Date){
         this._searchText = value;
@@ -28,13 +32,26 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     // private searchText: string | Date;
     // private innerSearchText: string | Date;
 
-    constructor(private courseService: CourseService){
+    constructor(private courseService: CourseService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal){
         // console.log('Courses page constructor');
         this.courseList = [];
+        overlay.defaultViewContainer = vcRef;
     }
 
-    handleCourseDeleted(course: CourseItem): void{
-        console.log(course);
+    handleCourseDeleted(courseId: number): void{
+        this.modal.confirm()
+            .size('sm')
+            .keyboard(27)
+            .title('Please confirm')
+            .body('Are you sure?')
+            .okBtn('Yes')
+            .cancelBtn('No')
+            .open().then(resultPromise => {
+                resultPromise.result.then(result =>{
+                    console.log(courseId);
+                    this.courseService.removeCourse(courseId);
+                })
+            });
     }
 
     ngOnChanges(): void
@@ -71,11 +88,11 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
         this.courseServiceSubscription.unsubscribe();
     }
 
-     ngOnInit(): void {
+    ngOnInit(): void {
         // console.log('Courses page ngOnInit');
 
         this.isLoading = true;
-        this.courseServiceSubscription = this.courseService.getCourseItems().subscribe((res: CourseItem[])=>{
+        this.courseServiceSubscription = this.courseService.getList().subscribe((res: CourseItem[])=>{
             this.courseList = res;
             this.isLoading = false;
         })
