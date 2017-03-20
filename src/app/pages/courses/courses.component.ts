@@ -1,5 +1,8 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, ViewChild, ViewEncapsulation, ViewContainerRef } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
+
+import { Overlay } from 'angular2-modal';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { CourseService } from '../../core/services';
 import { CourseItem } from '../../core/entities';
@@ -29,14 +32,26 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     // private searchText: string | Date;
     // private innerSearchText: string | Date;
 
-    constructor(private courseService: CourseService){
+    constructor(private courseService: CourseService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal){
         // console.log('Courses page constructor');
         this.courseList = [];
+        overlay.defaultViewContainer = vcRef;
     }
 
     handleCourseDeleted(courseId: number): void{
-        console.log(courseId);
-        this.courseService.removeCourse(courseId);
+        this.modal.confirm()
+            .size('sm')
+            .keyboard(27)
+            .title('Please confirm')
+            .body('Are you sure?')
+            .okBtn('Yes')
+            .cancelBtn('No')
+            .open().then(resultPromise => {
+                resultPromise.result.then(result =>{
+                    console.log(courseId);
+                    this.courseService.removeCourse(courseId);
+                })
+            });
     }
 
     ngOnChanges(): void

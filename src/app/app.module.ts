@@ -14,6 +14,10 @@ import {
 	PreloadAllModules
 } from '@angular/router';
 
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
+
+
 import { LocalStorageModule } from 'angular-2-local-storage';
 /*
  * Platform and Environment providers/directives/pipes
@@ -56,6 +60,8 @@ const APP_PROVIDERS = [
 		FormsModule,
 		HttpModule,
 		RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
+		ModalModule.forRoot(),
+		BootstrapModalModule,
 		HeaderModule,
 		FooterModule,
 		CoursesModule,
