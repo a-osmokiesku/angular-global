@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 
 import { AuthService } from '../../services';
 
@@ -6,7 +6,9 @@ import { AuthService } from '../../services';
 	selector: 'user-panel',
 	templateUrl: 'user-panel.component.html',
 	providers: [],
-	encapsulation: ViewEncapsulation.None
+	encapsulation: ViewEncapsulation.None,
+	changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class UserPanelComponent {
 	constructor(private authService: AuthService) {

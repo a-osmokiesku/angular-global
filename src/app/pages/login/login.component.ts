@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,8 @@ import { AuthService } from "../../core/services";
 	encapsulation: ViewEncapsulation.None,
 	providers: [],
 	styles: [require('./login.styles.scss')],
-	template: require('./login.template.html')
+	template: require('./login.template.html'),
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class LoginComponent{
