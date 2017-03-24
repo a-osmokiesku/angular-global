@@ -7,6 +7,8 @@ import {
 	ViewEncapsulation
 } from '@angular/core';
 import { AppState } from './app.service';
+import { LoaderService } from "./core/services";
+import { UiState } from "./core/entities";
 
 /*
  * App Component
@@ -23,11 +25,16 @@ import { AppState } from './app.service';
 	template: require('./app.template.html')
 })
 export class AppComponent implements OnInit {
+	public loaderStatus: boolean;
 
-	constructor() {
+	constructor(private loaderService: LoaderService) {
+		this.loaderStatus = false;
 	}
 
 	public ngOnInit() {
+		this.loaderService.uiState.subscribe((val: UiState)=>{
+			this.loaderStatus = val.actionOnGoing;
+		});
 	}
 
 }

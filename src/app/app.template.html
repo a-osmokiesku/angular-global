@@ -1,6 +1,7 @@
 <main-header></main-header>
 
 <main class="container">
+  <loader *ngIf="loaderStatus"></loader>
   <router-outlet></router-outlet>
 </main>
 

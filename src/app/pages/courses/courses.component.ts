@@ -14,7 +14,7 @@ import { Subscription, Observable } from 'rxjs';
 import { Overlay } from 'angular2-modal';
 import { Modal } from 'angular2-modal/plugins/bootstrap';
 
-import { CourseService } from '../../core/services';
+import { CourseService, LoaderService } from '../../core/services';
 import { CourseItem } from '../../core/entities';
 
 @Component({
@@ -37,7 +37,7 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
         return this._searchText;
     }
 
-    constructor(private courseService: CourseService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal){
+    constructor(private courseService: CourseService, private loaderService: LoaderService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal){
         overlay.defaultViewContainer = vcRef;
     }
 
@@ -51,8 +51,15 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
             .cancelBtn('No')
             .open().then(resultPromise => {
                 resultPromise.result.then(result =>{
-                    console.log(courseId);
-                    this.courseService.removeCourse(courseId);
+                    if(result){
+                        this.loaderService.show();
+                        this.courseService.removeCourse(courseId).delay(4000).subscribe((res)=>{
+                            console.log(res);
+                            this.loaderService.hide();
+                        });
+                    }
+                }, rejectReason =>{
+                    console.log(rejectReason);
                 })
             });
     }
