@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { LoginModel } from '../core/entities';
-import { AuthService } from "../../core/services";
+import { AuthService, LoaderService } from "../../core/services";
 
 @Component({
 	selector: 'login-form',
@@ -16,14 +16,17 @@ import { AuthService } from "../../core/services";
 
 export class LoginComponent{
 
-    constructor(private router: Router, private authService: AuthService){
+    constructor(private router: Router, private authService: AuthService, private loaderService: LoaderService){
     }
 
 	private email: string;
 	private password: string
 
 	private login(){
-		this.authService.login(this.email, this.password);
-		this.router.navigate(['/']);
+		this.loaderService.show();
+		this.authService.login(this.email, this.password).delay(4000).subscribe((loginResult: boolean)=>{
+			this.loaderService.hide();
+			this.router.navigate(['/']);
+		});
 	}
 }
