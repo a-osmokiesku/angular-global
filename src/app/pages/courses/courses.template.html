@@ -1,7 +1,6 @@
 <div class="home-page">
 	<toolbox [(searchText)]="searchText"></toolbox>
 	<div class="todo-list">
-		<course *ngFor="let course of courseList" (courseDeleted)="handleCourseDeleted($event)" [course]="course"></course>
+		<course *ngFor="let course of courseService.courses | async" (courseDeleted)="handleCourseDeleted($event)" [course]="course"></course>
 	</div>
-	<div *ngIf="isLoading">Is loading...</div>
 </div>

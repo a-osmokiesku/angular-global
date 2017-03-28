@@ -4,9 +4,13 @@
 import {
 	Component,
 	OnInit,
-	ViewEncapsulation
+	ViewEncapsulation,
+	NgZone,
+	OnDestroy
 } from '@angular/core';
 import { AppState } from './app.service';
+import { LoaderService } from "./core/services";
+import { UiState } from "./core/entities";
 
 /*
  * App Component
@@ -22,12 +26,34 @@ import { AppState } from './app.service';
 	],
 	template: require('./app.template.html')
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+	public loaderStatus: boolean;
 
-	constructor() {
+	constructor(private loaderService: LoaderService, private zone: NgZone) {
+		this.loaderStatus = false;
 	}
 
-	public ngOnInit() {
+	ngOnInit() {
+		this.loaderService.uiState.subscribe((val: UiState)=>{
+			this.loaderStatus = val.actionOnGoing;
+		});
+
+		let startTimeInMs: number = 0;
+		this.zone.onUnstable.subscribe(value => {
+			startTimeInMs = Date.now();
+		});
+
+		this.zone.onStable.subscribe(value => {
+			if(startTimeInMs !== 0){
+				let perfomanceResult: number = Date.now() - startTimeInMs;
+				console.log("Change detection: ", perfomanceResult, "ms.");
+			}
+		});
+	}
+
+	ngOnDestroy(){
+		this.zone.onUnstable.unsubscribe();
+		this.zone.onStable.unsubscribe();
 	}
 
 }

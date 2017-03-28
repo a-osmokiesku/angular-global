@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'toolbox',
     styles: [require('./toolbox.styles.scss')],
-    template: require('./toolbox.template.html')
+    template: require('./toolbox.template.html'),
+   	changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ToolboxComponent{

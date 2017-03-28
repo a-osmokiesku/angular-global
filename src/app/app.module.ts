@@ -37,13 +37,15 @@ import { LoginModule } from './pages/login';
 
 // Services
 
-import { CourseService, AuthService, LoggedInGuard } from './core/services';
+import { CourseService, AuthService, LoggedInGuard, LoaderService } from './core/services';
+import { LoaderComponent } from "./core/components/loader/loader.component";
 
 // Application wide providers
 const APP_PROVIDERS = [
 	CourseService,
 	AuthService,
-	LoggedInGuard
+	LoggedInGuard,
+	LoaderService
 ];
 
 /**
@@ -53,7 +55,8 @@ const APP_PROVIDERS = [
 	bootstrap: [AppComponent],
 	declarations: [
 		AppComponent,
-		NoContentComponent
+		NoContentComponent,
+		LoaderComponent
 	],
 	imports: [ // import Angular's modules
 		BrowserModule,
