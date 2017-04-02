@@ -40,6 +40,10 @@ import { LoginModule } from './pages/login';
 import { CourseService, AuthService, LoggedInGuard, LoaderService } from './core/services';
 import { LoaderComponent } from "./core/components/loader/loader.component";
 
+//Pipes
+
+
+
 // Application wide providers
 const APP_PROVIDERS = [
 	CourseService,
