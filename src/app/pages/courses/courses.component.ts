@@ -37,6 +37,8 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
         return this._searchText;
     }
 
+    public count: number = 0;
+
     constructor(private courseService: CourseService, private loaderService: LoaderService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal){
         overlay.defaultViewContainer = vcRef;
     }
@@ -88,5 +90,8 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     }
 
     ngOnInit(): void {
+        this.courseService.courses.subscribe((courses: Array<CourseItem>)=>{
+            this.count = courses.length;
+        });
     }
 }

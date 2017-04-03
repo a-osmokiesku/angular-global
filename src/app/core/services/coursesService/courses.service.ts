@@ -13,8 +13,8 @@ export class CourseService {
 
 	constructor() {
 		let mockList = [
-			new CourseItem('Video course 1', 88, new Date(2016,1,1),'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-			new CourseItem('Video course 2', 15, new Date(2016,1,1),'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+			new CourseItem('Video course 1', 88, new Date(2017,3,20),'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+			new CourseItem('Video course 2', 15, new Date(2017,3,1),'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true),
 			new CourseItem('Video course 3', 135, new Date(2016,1,1),'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')	
 		];
 		Observable.of(mockList).subscribe(
