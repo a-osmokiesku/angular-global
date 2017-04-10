@@ -12,14 +12,22 @@ export class CourseService {
 	private _courses: BehaviorSubject<Array<CourseItem>> = new BehaviorSubject([]);
 
 	constructor() {
-		let mockList = [
-			new CourseItem('Video course 1', 88, new Date(2017,3,20),'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
-			new CourseItem('Video course 2', 15, new Date(2017,3,1),'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', true),
-			new CourseItem('Video course 3', 135, new Date(2016,1,1),'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')	
-		];
-		Observable.of(mockList).subscribe(
+		let rawData = [
+			{title: 'Video course 1', duration: 88, date: new Date(2017,3,20), descr: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', top: false, someData: 'FooBar'},
+			{title: 'Video course 2', duration: 15, date: new Date(2017,3,1), descr: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', top: true, someData: 'FooBar'},
+			{title: 'Video course 3', duration: 135, date: new Date(2016,1,1), descr: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', top: false, someData: 'FooBar'}			
+		]
+
+		let borderDate = new Date;
+        borderDate.setDate(borderDate.getDate() - 14);
+
+		Observable.of(rawData).subscribe(
 			res => {
-				this._courses.next(res);
+				this._courses.next(res.map<CourseItem>((rawCourse):CourseItem=>{
+					return new CourseItem(rawCourse.title, rawCourse.duration, rawCourse.date, rawCourse.descr, rawCourse.top);
+				}).filter((x: CourseItem, idx: number)=>{
+					return x.date >= borderDate;
+				}));
 			}
 		)
 	}

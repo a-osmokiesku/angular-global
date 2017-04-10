@@ -16,6 +16,7 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { CourseService, LoaderService } from '../../core/services';
 import { CourseItem } from '../../core/entities';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
 	selector: 'courses',
@@ -27,19 +28,20 @@ import { CourseItem } from '../../core/entities';
 
 export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     private _searchText: string | Date;
+    private courseServiceSubscription: Subscription;
 
     @Input() 
     set searchText(value: string | Date){
         this._searchText = value;
-        console.log(value);
     }
     get searchText(){
         return this._searchText;
     }
 
     public count: number = 0;
+    public courses: CourseItem[];
 
-    constructor(private courseService: CourseService, private loaderService: LoaderService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal){
+    constructor(private courseService: CourseService, private loaderService: LoaderService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private changeDetector: ChangeDetectorRef){
         overlay.defaultViewContainer = vcRef;
     }
 
@@ -55,13 +57,13 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
                 resultPromise.result.then(result =>{
                     if(result){
                         this.loaderService.show();
-                        this.courseService.removeCourse(courseId).delay(4000).subscribe((res)=>{
-                            console.log(res);
+                        this.courseService.removeCourse(courseId).delay(1500).subscribe((res)=>{
                             this.loaderService.hide();
+                            this.changeDetector.markForCheck();
                         });
                     }
                 }, rejectReason =>{
-                    console.log(rejectReason);
+                    console.error(rejectReason);
                 })
             });
     }
@@ -87,11 +89,13 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     }
 
     ngOnDestroy(): void {
+        this.courseServiceSubscription.unsubscribe();
     }
 
     ngOnInit(): void {
-        this.courseService.courses.subscribe((courses: Array<CourseItem>)=>{
+        this.courseServiceSubscription = this.courseService.courses.subscribe((courses: Array<CourseItem>)=>{
             this.count = courses.length;
+            this.courses = courses;
         });
     }
 }
