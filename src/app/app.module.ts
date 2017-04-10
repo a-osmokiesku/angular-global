@@ -34,6 +34,7 @@ import { HeaderModule, FooterModule } from './core/components';
 // Pages
 import { CoursesModule } from './pages/courses';
 import { LoginModule } from './pages/login';
+import { NewCourseModule } from './pages/new-course';
 
 // Services
 
@@ -41,7 +42,7 @@ import { CourseService, AuthService, LoggedInGuard, LoaderService } from './core
 import { LoaderComponent } from "./core/components/loader/loader.component";
 
 //Pipes
-
+import { DurationModule } from './core/pipes/duration.pipe';
 
 
 // Application wide providers
@@ -73,10 +74,11 @@ const APP_PROVIDERS = [
 		FooterModule,
 		CoursesModule,
 		LoginModule,
+		NewCourseModule,
 		LocalStorageModule.withConfig({
 			prefix: 'angular-global',
 			storageType: 'localStorage'
-		})
+		}),
 	],
 	providers: [ // expose our Services and Providers into Angular's dependency injection
 		ENV_PROVIDERS,

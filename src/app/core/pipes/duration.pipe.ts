@@ -1,9 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Pipe({
     name: 'duration'
 })
-export class ExponentialStrengthPipe implements PipeTransform {
+export class DurationPipe implements PipeTransform {
   transform(value: number): string {
     if(value < 0){
         return "0 min";
@@ -18,3 +19,10 @@ export class ExponentialStrengthPipe implements PipeTransform {
     return result;
   }
 }
+
+@NgModule({
+  imports:      [ CommonModule],
+  declarations: [ DurationPipe],
+  exports:      [ DurationPipe],
+})
+export class DurationModule { }
