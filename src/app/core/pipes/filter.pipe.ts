@@ -1,12 +1,11 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'filter'
+    name: 'filter',
+    pure: false
 })
 export class FilterPipe implements PipeTransform {
     transform(items: any, filter: any): any {
-        console.log(items);
-        console.log(filter);
       if (filter && Array.isArray(items)) {
           let filterKeys = Object.keys(filter);
           return items.filter(item =>
