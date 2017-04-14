@@ -17,7 +17,6 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 import { CourseService, LoaderService } from '../../core/services';
 import { CourseItem } from '../../core/entities';
 import { ChangeDetectorRef } from '@angular/core';
-import { FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'courses',
@@ -27,12 +26,16 @@ import { FormControl } from '@angular/forms';
 })
 
 export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
-    private _searchText: FormControl;
+    private _searchText: string;
     private courseServiceSubscription: Subscription;
     
     @Input() 
-    set searchText(value: FormControl){
+    set searchText(value: string){
         this._searchText = value;
+        this.courseServiceSubscription = this.courseService.search(value).subscribe((courses)=>{
+            this.count = courses.length;
+            this.courses = courses;
+        })
     }
     get searchText(){
         return this._searchText;

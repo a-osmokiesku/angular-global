@@ -36,13 +36,13 @@ export class CourseService {
 			)));
 	}
 	
-	public search(query: string): Observable<CourseItem>{
+	public search(query: string): Observable<CourseItem[]>{
 		let requestOptions = new RequestOptions();
 		let request: Request;
 		let urlParams: URLSearchParams = new URLSearchParams();
 
 		urlParams.set('name_like', query);
-		requestOptions.url = `${this.baseUrl}/users`;
+		requestOptions.url = `${this.baseUrl}/courses`;
 		requestOptions.method = RequestMethod.Get;
 		requestOptions.search = urlParams;
 		request = new Request(requestOptions);
@@ -72,21 +72,6 @@ export class CourseService {
 			observer.next(course);
 		})
 
-		return obs;
-	}
-
-	public updateCourse(id: number, title: string, description: string, duration: number): Observable<CourseItem> {
-		let obs = this.getItemById(id);
-		obs.subscribe((res: CourseItem)=>{
-			let updatedCourses: Array<CourseItem> = this._courses.getValue();
-			
-			var index = updatedCourses.indexOf(res, 0);
-			updatedCourses[index].title = title;
-			updatedCourses[index].description = description;
-			updatedCourses[index].duration = duration;
-			
-			this._courses.next(updatedCourses);
-		});
 		return obs;
 	}
 
