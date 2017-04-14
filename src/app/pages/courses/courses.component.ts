@@ -17,21 +17,21 @@ import { Modal } from 'angular2-modal/plugins/bootstrap';
 import { CourseService, LoaderService } from '../../core/services';
 import { CourseItem } from '../../core/entities';
 import { ChangeDetectorRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
 	selector: 'courses',
 	encapsulation: ViewEncapsulation.None,
 	providers: [],
-	template: require('./courses.template.html'),
-    changeDetection: ChangeDetectionStrategy.OnPush
+	template: require('./courses.template.html')
 })
 
 export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
-    private _searchText: string | Date;
+    private _searchText: FormControl;
     private courseServiceSubscription: Subscription;
-
+    
     @Input() 
-    set searchText(value: string | Date){
+    set searchText(value: FormControl){
         this._searchText = value;
     }
     get searchText(){
@@ -41,7 +41,7 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     public count: number = 0;
     public courses: CourseItem[];
 
-    constructor(private courseService: CourseService, private loaderService: LoaderService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal, private changeDetector: ChangeDetectorRef){
+    constructor(private courseService: CourseService, private loaderService: LoaderService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal){
         overlay.defaultViewContainer = vcRef;
     }
 
@@ -59,7 +59,6 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
                         this.loaderService.show();
                         this.courseService.removeCourse(courseId).delay(1500).subscribe((res)=>{
                             this.loaderService.hide();
-                            this.changeDetector.markForCheck();
                         });
                     }
                 }, rejectReason =>{
