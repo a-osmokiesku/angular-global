@@ -43,9 +43,24 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
 
     public count: number = 0;
     public courses: CourseItem[];
+    public page: number = 1;
+    public isLastPage: boolean = false;
 
     constructor(private courseService: CourseService, private loaderService: LoaderService, overlay: Overlay, vcRef: ViewContainerRef, public modal: Modal){
         overlay.defaultViewContainer = vcRef;
+    }
+
+    loadPage(diff: number){
+        this.page += diff;
+        this.loaderService.show();
+        this.courseServiceSubscription = this.courseService.search(this.searchText, this.page)
+            .delay(1500)
+            .subscribe((courses: Array<CourseItem>)=>{
+                this.count = courses.length;
+                this.courses = courses;
+                this.loaderService.hide();
+                this.isLastPage = this.count < 5 ? true : false;
+            });
     }
 
     handleCourseDeleted(courseId: number): void{
@@ -61,6 +76,8 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
                     if(result){
                         this.loaderService.show();
                         this.courseService.removeCourse(courseId).delay(1500).subscribe((res)=>{
+                            this.courses = res;
+                            this.count = res.length;
                             this.loaderService.hide();
                         });
                     }
@@ -95,7 +112,7 @@ export class CoursesComponent implements OnInit, OnDestroy, OnChanges{
     }
 
     ngOnInit(): void {
-        this.courseServiceSubscription = this.courseService.courses.subscribe((courses: Array<CourseItem>)=>{
+        this.courseServiceSubscription = this.courseService.courses().subscribe((courses: Array<CourseItem>)=>{
             this.count = courses.length;
             this.courses = courses;
         });
