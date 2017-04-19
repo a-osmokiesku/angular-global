@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 
 import { CourseService } from '../../../core/services';
 import { CourseItem } from '../../../core/entities';
@@ -8,8 +8,7 @@ import { CourseItem } from '../../../core/entities';
 	encapsulation: ViewEncapsulation.None,
 	providers: [],
 	styles: [require('./course.styles.scss')],
-	template: require('./course.template.html'),
-	changeDetection: ChangeDetectionStrategy.OnPush
+	template: require('./course.template.html')
 })
 
 export class CourseComponent{
