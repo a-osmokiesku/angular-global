@@ -5,10 +5,12 @@ import { Observable, Subject } from 'rxjs';
 import { BehaviorSubject, Observer } from 'rxjs/Rx';
 
 import { UserInfo } from '../../entities';
+import { Http, RequestMethod, RequestOptions, Request, Response, URLSearchParams } from '@angular/http'
 
 @Injectable()
 export class AuthService{
     private readonly LocalStorageKey: string = "auth";
+    private baseUrl: string;
 
     private _userInfo: BehaviorSubject<UserInfo> = new BehaviorSubject(new UserInfo());
     private _isAuth: BehaviorSubject<boolean> = new BehaviorSubject(undefined);    
@@ -19,19 +21,33 @@ export class AuthService{
         return new Observable(fn => this._userInfo.subscribe(fn));
     }
 
-    constructor(private localStorage: LocalStorageService){
+    constructor(private localStorage: LocalStorageService, private http: Http){
+		this.baseUrl = 'http://localhost:4001';
     }
 
     public login(email: string, password: string): Observable<boolean>{
-        var userInfo: UserInfo = new UserInfo(email, "Artur");
-        localStorage.setItem(this.LocalStorageKey, JSON.stringify(userInfo));
-        this._userInfo.next(userInfo);
-        
-        let obs = Observable.create((observer: Observer<boolean>) => {
-			observer.next(true);
-		})
+        let request: Request;
+		let requestOptions = new RequestOptions();
+		let urlParams: URLSearchParams = new URLSearchParams();
 
-		return obs;
+		urlParams.set('login_like', email);
+		requestOptions.url = `${this.baseUrl}/users`;
+		requestOptions.method = RequestMethod.Get;
+		requestOptions.search = urlParams;
+
+		request = new Request(requestOptions);
+		return this.http.request(request)
+			.map((res: Response) => res.json())
+			.map((users) => users.map((item) => {
+                console.log(item.password);
+                if(item.password === password){
+                    var userInfo: UserInfo = new UserInfo(email, `${item.name.first} ${item.name.last}`, item.fakeToken);
+                    localStorage.setItem(this.LocalStorageKey, JSON.stringify(userInfo));
+                    this._userInfo.next(userInfo);
+                    return true
+                }
+                return false;
+            }));
     }
 
     public logout(): void{

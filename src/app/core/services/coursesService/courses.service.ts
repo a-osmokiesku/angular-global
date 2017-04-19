@@ -6,25 +6,35 @@ import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 
 import { CourseItem } from '../../entities';
+import { AuthorizedHttp } from '../authService/authorizedHttp.service';
 
 @Injectable()
 export class CourseService {
 
 	private _courses: BehaviorSubject<Array<CourseItem>> = new BehaviorSubject([]);
 	private baseUrl: string;
+	private pageSize: number;
 
-	constructor(private http: Http) {
+	constructor(private http: AuthorizedHttp) {
 		this.baseUrl = 'http://localhost:4000';
+		this.pageSize = 5;
 	}
 	
-	get	courses(){
+	public courses(page?: number): Observable<CourseItem[]>{
+		if(!page) page = 1;
+
 		let borderDate = new Date;
         borderDate.setDate(borderDate.getDate() - 14);
 
 		let requestOptions: RequestOptions = new RequestOptions();
 		let request: Request;
+		let urlParams: URLSearchParams = new URLSearchParams();
+
+		urlParams.set('_page', page.toString());
+		urlParams.set('_limit', this.pageSize.toString());
 		requestOptions.url = `${this.baseUrl}/courses`;
 		requestOptions.method = RequestMethod.Get;
+		requestOptions.search = urlParams;
 		request = new Request(requestOptions);
 
 		return this.http.request(request)
@@ -32,38 +42,35 @@ export class CourseService {
 				return res.json()
 			})
 			.map((courses) => courses.map((item) => new CourseItem(
-				item.name, item.length, item.date, item.description, item.isTopRated
+				item.id, item.name, item.length, item.date, item.description, item.isTopRated
 			)));
 	}
 	
-	public search(query: string): Observable<CourseItem[]>{
-		let requestOptions = new RequestOptions();
+	public search(query: string, page?: number): Observable<CourseItem[]>{
+		console.log(page);
+		if(!page) page = 1;
+		
 		let request: Request;
+		let requestOptions = new RequestOptions();
 		let urlParams: URLSearchParams = new URLSearchParams();
 
 		urlParams.set('name_like', query);
+		urlParams.set('_page', page.toString());
+		urlParams.set('_limit', this.pageSize.toString());
 		requestOptions.url = `${this.baseUrl}/courses`;
 		requestOptions.method = RequestMethod.Get;
 		requestOptions.search = urlParams;
-		request = new Request(requestOptions);
 
+		request = new Request(requestOptions);
 		return this.http.request(request)
 			.map((res: Response) => res.json())
 			.map((users) => users.map((item) => new CourseItem(
-				item.name, item.length, item.date, item.description, item.isTopRated
+				item.id, item.name, item.length, item.date, item.description, item.isTopRated
 			)));
 	}
 
-	public getItemById(id: number): Observable<CourseItem> {
-		var course = this._courses.getValue().find((value: CourseItem)=>{
-			return value.id == id;
-		});
-
-		return Observable.of(course);
-	}
-
 	public createCourse(title: string, description: string, duration: number): Observable<CourseItem> {
-		let course: CourseItem = new CourseItem(title, duration, new Date(), description);
+		let course: CourseItem = new CourseItem(1, title, duration, new Date(), description);
 		let updatedCourses: Array<CourseItem> = this._courses.getValue();
 		updatedCourses.push(course);
 		this._courses.next(updatedCourses);
@@ -75,17 +82,20 @@ export class CourseService {
 		return obs;
 	}
 
-	public removeCourse(id: number): Observable<Array<CourseItem>> {
-		let obs = this.getItemById(id).subscribe((res: CourseItem)=>{
-			let courses = this._courses.getValue();
-			let index: number = courses.indexOf(res, 0);
+	public removeCourse(id: number): Observable<CourseItem[]> {
+		let request: Request;
+		let requestOptions = new RequestOptions();
 
-			if(index > -1){
-				courses.splice(index, 1);
-			}
-			this._courses.next(courses);
-		});
-		
-		return new Observable(fn => this._courses.subscribe(fn));
+		requestOptions.url = `${this.baseUrl}/courses/${id}`;
+		requestOptions.method = RequestMethod.Delete;
+
+		request = new Request(requestOptions);
+		return this.http.request(request)
+			.map((res)=>{
+				console.log(res);
+			})
+			.flatMap(foo => {
+				return this.courses();
+			});
 	}
 }
