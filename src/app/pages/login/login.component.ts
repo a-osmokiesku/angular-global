@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { LoginModel } from '../core/entities';
@@ -16,15 +17,18 @@ import { AuthService, LoaderService } from "../../core/services";
 
 export class LoginComponent{
 
-    constructor(private router: Router, private authService: AuthService, private loaderService: LoaderService){
+	public loginForm: FormGroup = this.formBuilder.group({
+    	email: ["", Validators.compose([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')])],
+    	password: ["", Validators.required]
+  	});
+
+    constructor(private router: Router, private authService: AuthService, private loaderService: LoaderService, public formBuilder: FormBuilder){
     }
 
-	private email: string;
-	private password: string
 
 	private login(){
 		this.loaderService.show();
-		this.authService.login(this.email, this.password).delay(4000).subscribe((loginResult: boolean)=>{
+		this.authService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value).delay(4000).subscribe((loginResult: boolean)=>{
 			this.loaderService.hide();
 			this.router.navigate(['/']);
 		});

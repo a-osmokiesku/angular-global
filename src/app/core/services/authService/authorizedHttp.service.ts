@@ -18,17 +18,17 @@ export class AuthorizedHttp extends Http {
 
     let userInfo: UserInfo = JSON.parse(localStorage.getItem(localStorageKey));
     console.log(userInfo);
-    let token = userInfo.token;
 
+    if(userInfo == null) return super.request(url, options).catch(this.catchAuthError(this));
 
-    if (typeof url === 'string') { // meaning we have to add the token to the options, not in url
+    let token = userInfo.token;//TODO: valid behavior if token is not exist
+
+    if (typeof url === 'string') {
       if (!options) {
-        // let's make option object
         options = {headers: new Headers()};
       }
       options.headers.set('Authorization', `Bearer ${token}`);
     } else {
-    // we have to add the token to the url object
       url.headers.set('Authorization', `Bearer ${token}`);
     }
     return super.request(url, options).catch(this.catchAuthError(this));
