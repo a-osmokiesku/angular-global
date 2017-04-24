@@ -22,7 +22,7 @@ export class LoginComponent{
     	password: ["", Validators.required]
   	});
 
-    constructor(private router: Router, private authService: AuthService, private loaderService: LoaderService, public formBuilder: FormBuilder){
+    constructor(private router: Router, private authService: AuthService, private loaderService: LoaderService, private formBuilder: FormBuilder){
     }
 
 

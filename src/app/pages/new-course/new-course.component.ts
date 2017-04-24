@@ -1,4 +1,5 @@
 import { OnDestroy, Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'new-course',
@@ -10,12 +11,15 @@ import { OnDestroy, Component, OnInit, ViewEncapsulation, ChangeDetectionStrateg
 
 export class NewCourse implements OnInit, OnDestroy{
     
-    public title: string;
-    public description: string;
     public date: string
     public duration: number = 0;
 
-    constructor(){}
+    public form: FormGroup = this.formBuilder.group({
+        title: ["", [Validators.required, Validators.maxLength(50)]],
+        description: ["", [Validators.required, Validators.maxLength(500)]],
+    });
+
+    constructor(private formBuilder: FormBuilder){}
 
     ngOnDestroy(): void {
     }

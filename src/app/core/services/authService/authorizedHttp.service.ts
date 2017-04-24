@@ -21,7 +21,7 @@ export class AuthorizedHttp extends Http {
 
     if(userInfo == null) return super.request(url, options).catch(this.catchAuthError(this));
 
-    let token = userInfo.token;//TODO: valid behavior if token is not exist
+    let token = userInfo.token;
 
     if (typeof url === 'string') {
       if (!options) {
