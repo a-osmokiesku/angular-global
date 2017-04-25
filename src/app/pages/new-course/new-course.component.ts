@@ -11,12 +11,11 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 
 export class NewCourse implements OnInit, OnDestroy{
     
-    public date: string
-    public duration: number = 0;
-
     public form: FormGroup = this.formBuilder.group({
         title: ["", [Validators.required, Validators.maxLength(50)]],
         description: ["", [Validators.required, Validators.maxLength(500)]],
+        date: ["", Validators.required],
+        duration: [0, Validators.required]
     });
 
     constructor(private formBuilder: FormBuilder){}
@@ -27,17 +26,13 @@ export class NewCourse implements OnInit, OnDestroy{
     ngOnInit(): void {
     }
 
-    dateSelectorHandler(date: string){
-        this.date = date;
-    }
-
-    durationSelectorHandler(duration: number){
-        this.duration = duration;
-    }
-
     cancel(){
+        this.form.reset();
     }
 
     save(){
+        debugger;
+        var foo = this.form.errors;
+        console.log(foo);
     }
 }
