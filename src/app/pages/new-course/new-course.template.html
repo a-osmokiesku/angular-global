@@ -33,6 +33,13 @@
         {{form.controls.duration.value | duration}}
       </div>
     </div>
+    <div class="form-group row" [ngClass]="{'has-danger':!form.controls['author'].valid && form.controls['author'].touched}">
+      <label for="author" class="col-sm-2 col-form-label">Author</label>
+      <div class="col-sm-10">
+        <author-selector formControlName="author" id="author" [authors]="sourceAuthors"></author-selector>
+        <div class="alert alert-danger" *ngIf="!form.controls.author.valid && form.controls.author.touched && form.controls.author.hasError('required')">This field is required!</div>
+      </div>
+    </div>
     <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
         <button type="submit" (click)="save()" class="btn btn-primary" [disabled]="!form.valid">Save</button>

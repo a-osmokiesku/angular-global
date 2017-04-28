@@ -38,7 +38,7 @@ import { NewCourseModule } from './pages/new-course';
 
 // Services
 
-import { CourseService, AuthService, LoggedInGuard, LoaderService } from './core/services';
+import { CourseService, AuthService, LoggedInGuard, LoaderService, AuthorService } from './core/services';
 import { LoaderComponent } from "./core/components/loader/loader.component";
 
 //Pipes
@@ -50,7 +50,8 @@ const APP_PROVIDERS = [
 	CourseService,
 	AuthService,
 	LoggedInGuard,
-	LoaderService
+	LoaderService,
+	AuthorService
 ];
 
 /**
