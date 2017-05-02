@@ -1,1 +1,5 @@
-<input type="email" class="form-control" id="date" name="date" [(ngModel)]="date" placeholder="Date">
+<div [formGroup]="form">
+    <input class="form-control" id="date" name="date" formControlName="date" [disabled]="isDisabled" (keyup)="setValue($event)" placeholder="Date">
+    <div class="alert alert-danger" *ngIf="!form.controls.date.valid && form.controls.date.dirty">Invalid date format (MM/DD/YYYY)!</div>
+    {{date}}
+</div>

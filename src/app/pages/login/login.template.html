@@ -1,8 +1,11 @@
-<form class="form-signin">
+<form class="form-signin" [formGroup]="loginForm" (ngSubmit)="login()">
     <h2 class="form-signin-heading">Please sign in</h2>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input [(ngModel)]="email" type="text" name="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus>
+    <input formControlName="email" type="text" name="email" id="inputEmail" class="form-control" placeholder="Email address" autofocus>
+    <div class="alert alert-danger" *ngIf="!loginForm.controls.email.valid && loginForm.controls.email.dirty && loginForm.controls.email.hasError('required')">This field is required!</div>
+    <div class="alert alert-danger" *ngIf="!loginForm.controls.email.valid && loginForm.controls.email.dirty && loginForm.controls.email.hasError('pattern')">Email is not valid!</div>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input [(ngModel)]="password" type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
-	<button (click)="login()" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <input formControlName="password" type="password" name="password" id="inputPassword" class="form-control" placeholder="Password">
+    <div class="alert alert-danger" *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.dirty">This field is required!</div>
+	<button [disabled]="!loginForm.valid" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>

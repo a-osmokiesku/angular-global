@@ -1,0 +1,8 @@
+<div [formGroup]="form">
+    <p *ngFor="let item of foo">
+        <label>
+            <input type="checkbox" (change)="setValue($event)" [value]="item" [disabled]="isDisabled">
+            {{item}}
+        </label>
+    </p>
+</div>

@@ -1,36 +1,49 @@
 <div class="container" style="margin-top: 20px;">
-  <form>
-    <div class="form-group row">
+  <form [formGroup]="form">
+    <div class="form-group row" [ngClass]="{'has-danger':!form.controls['title'].valid && form.controls['title'].touched}">
       <label for="title" class="col-sm-2 col-form-label">Title</label>
       <div class="col-sm-10">
-        <input type="email" name="title" class="form-control" id="title" [(ngModel)]="title" placeholder="Title">
+        <input type="email" name="title" class="form-control" id="title" formControlName="title" placeholder="Title">
+        <div class="alert alert-danger" *ngIf="!form.controls.title.valid && form.controls.title.touched && form.controls.title.hasError('required')">This field is required!</div>
+        <div class="alert alert-danger" *ngIf="!form.controls.title.valid && form.controls.title.touched && form.controls.title.hasError('maxlength')">This field cannot exceed 50 characters!</div>
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{'has-danger':!form.controls['description'].valid && form.controls['description'].touched}">
       <label for="description" class="col-sm-2 col-form-label">Description</label>
       <div class="col-sm-10">
-        <textarea class="form-control" name="description" id="description" rows="5" [(ngModel)]="description" placeholder="Description"></textarea>
+        <textarea class="form-control" name="description" id="description" rows="5" formControlName="description" placeholder="Description"></textarea>
+        <div class="alert alert-danger" *ngIf="!form.controls.description.valid && form.controls.description.touched && form.controls.description.hasError('required')">This field is required!</div>
+        <div class="alert alert-danger" *ngIf="!form.controls.description.valid && form.controls.description.touched && form.controls.description.hasError('maxlength')">This field cannot exceed 500 characters!</div>
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{'has-danger':!form.controls['date'].valid && form.controls['date'].touched}">
       <label for="date" class="col-sm-2 col-form-label">Date</label>
       <div class="col-sm-10">
-        <date-selector class="col-sm-10" (onDateSelected)="dateSelectorHandler($event)" id="date"></date-selector>
+        <date-selector class="col-sm-10" formControlName="date" id="date"></date-selector>
+        <div class="alert alert-danger" *ngIf="!form.controls.date.valid && form.controls.date.touched && form.controls.date.hasError('required')">This field is required!</div>
       </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row" [ngClass]="{'has-danger':!form.controls['duration'].valid && form.controls['duration'].touched}">
       <label for="duration" class="col-sm-2 col-form-label">Duration</label>
       <div class="col-sm-6">
-        <duration-selector (onDurationSelected)="durationSelectorHandler($event)" id="duration"></duration-selector>
+        <duration-selector formControlName="duration" id="duration"></duration-selector>
+        <div class="alert alert-danger" *ngIf="!form.controls.duration.valid && form.controls.duration.touched && form.controls.duration.hasError('required')">This field is required!</div>
       </div>
       <div class="col-sm-4">
-        {{duration | duration}}
+        {{form.controls.duration.value | duration}}
+      </div>
+    </div>
+    <div class="form-group row" [ngClass]="{'has-danger':!form.controls['author'].valid && form.controls['author'].touched}">
+      <label for="author" class="col-sm-2 col-form-label">Author</label>
+      <div class="col-sm-10">
+        <author-selector formControlName="author" id="author" [authors]="sourceAuthors"></author-selector>
+        <div class="alert alert-danger" *ngIf="!form.controls.author.valid && form.controls.author.touched && form.controls.author.hasError('required')">This field is required!</div>
       </div>
     </div>
     <div class="form-group row">
       <div class="offset-sm-2 col-sm-10">
-        <button disabled type="submit" (click)="save()" class="btn btn-primary">Save</button>
-        <button disabled type="button" (click)="cancel()" class="btn">Cancel</button>
+        <button type="submit" (click)="save()" class="btn btn-primary" [disabled]="!form.valid">Save</button>
+        <button type="button" (click)="cancel()" class="btn">Cancel</button>
       </div>
     </div>
   </form>
