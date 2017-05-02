@@ -9,8 +9,7 @@ import { Observable, Subject } from 'rxjs';
 	templateUrl: 'loader.component.html',
     styles: [require('./loader.component.scss')],
 	providers: [],
-	encapsulation: ViewEncapsulation.None,
-	changeDetection: ChangeDetectionStrategy.OnPush
+	encapsulation: ViewEncapsulation.None
 
 })
 export class LoaderComponent {

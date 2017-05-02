@@ -5,8 +5,7 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/
 	templateUrl: 'header.component.html',
 	styles: [require('./header.component.scss')],
 	providers: [],
-	encapsulation: ViewEncapsulation.None,
-	changeDetection: ChangeDetectionStrategy.OnPush
+	encapsulation: ViewEncapsulation.None
 
 })
 export class HeaderComponent {

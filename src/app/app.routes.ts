@@ -4,7 +4,7 @@ import { NoContentComponent } from './pages/no-content';
 import { LoggedInGuard } from './core/services';
 
 export const ROUTES: Routes = [
-	{path: '', component: CoursesComponent, canActivate: [LoggedInGuard]},
+	{path: '', redirectTo: 'courses', pathMatch: 'full'},
 	{path: 'courses', component: CoursesComponent, canActivate: [LoggedInGuard]},
 	{path: '**', component: NoContentComponent},
 ];

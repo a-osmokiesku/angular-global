@@ -11,14 +11,13 @@ import { AuthService, LoaderService } from "../../core/services";
 	encapsulation: ViewEncapsulation.None,
 	providers: [],
 	styles: [require('./login.styles.scss')],
-	template: require('./login.template.html'),
-	changeDetection: ChangeDetectionStrategy.OnPush
+	template: require('./login.template.html')
 })
 
 export class LoginComponent{
 
 	public loginForm: FormGroup = this.formBuilder.group({
-    	email: ["", Validators.compose([Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')])],
+    	email: ["", Validators.required],
     	password: ["", Validators.required]
   	});
 

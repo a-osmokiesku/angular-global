@@ -4,7 +4,7 @@ import { LoginComponent } from './login.component';
 
 // Route Configuration
 const coursesRoutes: Routes = [
-	{ path: 'login', component: LoginComponent},
+	{ path: 'login', component: LoginComponent, data: {breadcrumb: "Sign In"}},
 ];
 
 export const routes = RouterModule.forChild(coursesRoutes);

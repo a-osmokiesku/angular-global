@@ -56,7 +56,6 @@ export class DurationSelectorComponent implements ControlValueAccessor {
 
     setValue(event){
         if(this.form.controls["duration"].valid && event.target.value !== ""){
-            debugger;
             this.onChange(new Number(event.target.value));
             this.onTouched();
         }else{

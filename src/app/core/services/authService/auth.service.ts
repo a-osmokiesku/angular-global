@@ -44,6 +44,7 @@ export class AuthService{
                     var userInfo: UserInfo = new UserInfo(email, `${item.name.first} ${item.name.last}`, item.fakeToken);
                     localStorage.setItem(this.LocalStorageKey, JSON.stringify(userInfo));
                     this._userInfo.next(userInfo);
+                    this._isAuth.next(true)
                     return true
                 }
                 return false;
@@ -53,7 +54,7 @@ export class AuthService{
     public logout(): void{
         let currentStatus: boolean = this._isAuth.getValue();
         if(this._isAuth.getValue()){
-            this._userInfo.next(new UserInfo());
+            this._userInfo.next(null);
             this._isAuth.next(false);
             localStorage.removeItem(this.LocalStorageKey);
         }

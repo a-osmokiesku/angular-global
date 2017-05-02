@@ -19,7 +19,9 @@ export class AuthorizedHttp extends Http {
     let userInfo: UserInfo = JSON.parse(localStorage.getItem(localStorageKey));
     console.log(userInfo);
 
-    if(userInfo == null) return super.request(url, options).catch(this.catchAuthError(this));
+    if(userInfo == null) {
+      throw new Error("User information in local storage is not defined. Maybe user is logged out.");
+    }
 
     let token = userInfo.token;
 

@@ -29,10 +29,7 @@ export class AuthorSelectorComponent implements ControlValueAccessor {
     @Input("authors")
     set authors(value: string[]){
         if(Array.isArray(value)){
-            debugger;
             this.foo = value;
-            // this.form.controls['authors'].setValue(value);
-            // this.onChange(value);
         }
     }
 
