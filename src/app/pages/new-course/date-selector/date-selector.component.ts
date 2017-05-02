@@ -35,8 +35,10 @@ export class DateSelectorComponent implements ControlValueAccessor {
     constructor(private formBuilder: FormBuilder){}
 
     writeValue(obj: any): void {
+        debugger;
         if(obj && obj != ""){
-            this.form.controls["date"].setValue(new Date(obj));
+            var temp = new Date(obj);
+            this.form.controls["date"].setValue(`${temp.getMonth()}/${temp.getDate()}/${temp.getFullYear()}`);
         }
     }
     registerOnChange(fn: any): void {

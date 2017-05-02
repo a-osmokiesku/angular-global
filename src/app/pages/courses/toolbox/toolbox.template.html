@@ -3,5 +3,5 @@
     	<input type="text" name="searchText" class="form-control" [(ngModel)]="searchText" placeholder="name fragment or date">
 		<button type="submit" (click)="find()" class="btn btn-secondary">Find</button>
   	</div>
-	<button type="submit" routerLink="/new" class="btn btn-primary col-sm-2"><i class="fa fa-plus" aria-hidden="true"></i> Add course</button>
+	<button type="submit" [routerLink]="['/courses','new']" class="btn btn-primary col-sm-2"><i class="fa fa-plus" aria-hidden="true"></i> Add course</button>
 </form>

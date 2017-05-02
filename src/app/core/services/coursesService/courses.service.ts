@@ -20,6 +20,23 @@ export class CourseService {
 		this.pageSize = 5;
 	}
 	
+	public getOne(id: number): Observable<CourseItem>{
+		let requestOptions: RequestOptions = new RequestOptions();
+		let request: Request;
+
+		requestOptions.url = `${this.baseUrl}/courses/${id}`;
+		requestOptions.method = RequestMethod.Get;
+		request = new Request(requestOptions);
+
+		return this.http.request(request)
+			.map((res: Response) => {
+				return res.json();
+			})
+			.map((course) => {
+				return new CourseItem(course.id, course.name, course.length, course. date, course.description, course.isTopRated);
+			});
+	}
+
 	public courses(page?: number): Observable<CourseItem[]>{
 		if(!page) page = 1;
 
@@ -39,7 +56,7 @@ export class CourseService {
 
 		return this.http.request(request)
 			.map((res: Response) => {
-				return res.json()
+				return res.json();
 			})
 			.map((courses) => courses.map((item) => new CourseItem(
 				item.id, item.name, item.length, item.date, item.description, item.isTopRated
